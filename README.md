@@ -57,3 +57,4 @@ E621 is blocked in some regions, so maybe you need to use proxy or VPN
 ![screenshot_2](https://github.com/Soup-o-Stat/e621_windows_client/blob/main/screenshots/2.png)
 ![screenshot_3](https://github.com/Soup-o-Stat/e621_windows_client/blob/main/screenshots/3.png)
 ![screenshot_4](https://github.com/Soup-o-Stat/e621_windows_client/blob/main/screenshots/4.png)
+![screenshot_5](https://github.com/Soup-o-Stat/e621_windows_client/blob/main/screenshots/5.png)
