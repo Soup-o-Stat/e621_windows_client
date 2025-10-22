@@ -51,7 +51,7 @@ python main.py
 2. Run E621.exe
 
 ## Notes
-E621 is blocked in some regions, so maybe you need to use proxy of VPN
+E621 is blocked in some regions, so maybe you need to use proxy or VPN
 
 ![screenshot_1](https://github.com/Soup-o-Stat/e621_windows_client/blob/main/screenshots/1.png)
 ![screenshot_2](https://github.com/Soup-o-Stat/e621_windows_client/blob/main/screenshots/2.png)
