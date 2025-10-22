@@ -53,3 +53,7 @@ python main.py
 ## Notes
 E621 is blocked in some regions, so maybe you need to use proxy of VPN
 
+[](https://github.com/Soup-o-Stat/e621_windows_client/blob/main/screenshots/1.png)
+[](https://github.com/Soup-o-Stat/e621_windows_client/blob/main/screenshots/2.png)
+[](https://github.com/Soup-o-Stat/e621_windows_client/blob/main/screenshots/3.png)
+[](https://github.com/Soup-o-Stat/e621_windows_client/blob/main/screenshots/4.png)
