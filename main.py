@@ -1,16 +1,21 @@
 from PyQt6.QtWidgets import (QApplication, QMainWindow, QVBoxLayout, QWidget,
-                             QHBoxLayout, QToolBar, QLineEdit, QPushButton)
+                             QHBoxLayout, QLineEdit, QPushButton)
 from PyQt6.QtWebEngineWidgets import QWebEngineView
 from PyQt6.QtCore import QUrl, QStandardPaths
-from PyQt6.QtGui import QIcon, QAction
+from PyQt6.QtGui import QIcon
 from PyQt6.QtWebEngineCore import QWebEngineProfile, QWebEnginePage, QWebEngineSettings
+from pypresence import Presence
+import threading
+import time
 import sys
 import os
+
+ver = "0.0.2"
 
 class E621Client(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("E621 Client")
+        self.setWindowTitle(f"E621 Client {ver}")
         self.setGeometry(100, 100, 1200, 1000)
 
         try:
@@ -18,16 +23,19 @@ class E621Client(QMainWindow):
         except:
             pass
 
-        profile_name = "e621-persistent-profile"
-        self.profile = QWebEngineProfile(profile_name, self)
+        if getattr(sys, 'frozen', False):
+            base_path = os.path.dirname(sys.executable)
+        else:
+            base_path = os.path.dirname(os.path.abspath(__file__))
 
-        data_path = os.path.join(
-            QStandardPaths.writableLocation(QStandardPaths.StandardLocation.AppLocalDataLocation),
-            "e621-client", profile_name
-        )
+        profile_name = "e621-persistent-profile"
+        data_path = os.path.join(base_path, profile_name)
         os.makedirs(data_path, exist_ok=True)
-        downloads_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "downloads")
+
+        downloads_path = os.path.join(base_path, "downloads")
         os.makedirs(downloads_path, exist_ok=True)
+
+        self.profile = QWebEngineProfile(profile_name, self)
         self.profile.setDownloadPath(downloads_path)
         self.profile.setPersistentStoragePath(data_path)
         self.profile.setCachePath(os.path.join(data_path, "cache"))
@@ -48,6 +56,8 @@ class E621Client(QMainWindow):
 
         self.browser.urlChanged.connect(self.update_urlbar)
 
+        threading.Thread(target=self.run_discord_rpc, daemon=True).start()
+
     def setup_ui(self):
         main_widget = QWidget()
         self.setCentralWidget(main_widget)
@@ -56,22 +66,24 @@ class E621Client(QMainWindow):
         main_layout.setSpacing(0)
         nav_layout = QHBoxLayout()
         nav_layout.setContentsMargins(5, 5, 5, 5)
+
         self.back_btn = QPushButton("←")
-        self.back_btn.setToolTip("Назад")
+        self.back_btn.setToolTip("Back")
         self.back_btn.clicked.connect(self.go_back)
         self.back_btn.setFixedSize(30, 30)
+
         self.forward_btn = QPushButton("→")
-        self.forward_btn.setToolTip("Вперед")
+        self.forward_btn.setToolTip("Forward")
         self.forward_btn.clicked.connect(self.go_forward)
         self.forward_btn.setFixedSize(30, 30)
 
         self.reload_btn = QPushButton("↻")
-        self.reload_btn.setToolTip("Обновить")
+        self.reload_btn.setToolTip("Reload")
         self.reload_btn.clicked.connect(self.browser.reload)
         self.reload_btn.setFixedSize(30, 30)
 
         self.home_btn = QPushButton("🏠")
-        self.home_btn.setToolTip("Домой")
+        self.home_btn.setToolTip("Home")
         self.home_btn.clicked.connect(self.go_home)
         self.home_btn.setFixedSize(30, 30)
 
@@ -126,7 +138,29 @@ class E621Client(QMainWindow):
 
         download.setDownloadFileName(filename)
         download.accept()
-        print(f"Downloading: {filename} to {downloads_dir}")
+        print(f"Downloading: {filename} → {downloads_dir}")
+
+    def run_discord_rpc(self):
+        try:
+            CLIENT_ID = "1430473078936178698"
+            rpc = Presence(CLIENT_ID)
+            rpc.connect()
+            print("[Discord RPC] Connected")
+
+            start_time = int(time.time())
+
+            while True:
+                rpc.update(
+                    state="Browsing e621.net",
+                    details="  ",
+                    large_image="icon",
+                    large_text="E621 Client",
+                    small_image=None,
+                    start=start_time,
+                )
+                time.sleep(15)
+        except Exception as e:
+            print(f"[Discord RPC] Error: {e}")
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
