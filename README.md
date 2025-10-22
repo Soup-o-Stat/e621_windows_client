@@ -53,6 +53,16 @@ python main.py
 ## Notes
 E621 is blocked in some regions, so maybe you need to use proxy or VPN
 
+## FAQ
+
+### Does this program collect any data?
+
+No. You can check source code
+
+### Can i donate you?
+
+Of course! You can donate me [here](https://dalink.to/soup_o_stat)
+
 ![screenshot_1](https://github.com/Soup-o-Stat/e621_windows_client/blob/main/screenshots/1.png)
 ![screenshot_2](https://github.com/Soup-o-Stat/e621_windows_client/blob/main/screenshots/2.png)
 ![screenshot_3](https://github.com/Soup-o-Stat/e621_windows_client/blob/main/screenshots/3.png)
